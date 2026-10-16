@@ -1747,7 +1747,7 @@ wheels = [
 [[package]]
 name = "tabvio-agent"
 version = "0.1.0"
-source = { editable = "../Tabvio/packages/tabvio-agent" }
+source = { git = "https://github.com/JimGalvan/Tabvio.git?subdirectory=packages%2Ftabvio-agent&rev=a2ed8b33a33b1b6add8da0657bf8efc35ee1f837#a2ed8b33a33b1b6add8da0657bf8efc35ee1f837" }
 dependencies = [
     { name = "deepagents" },
     { name = "langchain" },
@@ -1757,18 +1757,6 @@ dependencies = [
     { name = "langgraph" },
     { name = "playwright" },
     { name = "pydantic" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "deepagents", specifier = ">=0.7.25,<0.8" },
-    { name = "langchain", specifier = ">=1.4.6,<2.0" },
-    { name = "langchain-core", specifier = ">=1.6.10,<2.0" },
-    { name = "langchain-openai", specifier = ">=1.7.2,<2.0" },
-    { name = "langchain-quickjs", specifier = ">=0.3.9,<0.4" },
-    { name = "langgraph", specifier = ">=1.2.15,<2.0" },
-    { name = "playwright", specifier = ">=1.59.0,<2.0" },
-    { name = "pydantic", specifier = ">=2.0,<3.0" },
 ]
 
 [[package]]
@@ -1805,7 +1793,7 @@ requires-dist = [
     { name = "python-dotenv" },
     { name = "sqlalchemy", specifier = ">=2.0,<3.0" },
     { name = "starlette", specifier = ">=0.40.0,<1.0" },
-    { name = "tabvio-agent", editable = "../Tabvio/packages/tabvio-agent" },
+    { name = "tabvio-agent", git = "https://github.com/JimGalvan/Tabvio.git?subdirectory=packages%2Ftabvio-agent&rev=a2ed8b33a33b1b6add8da0657bf8efc35ee1f837" },
     { name = "uvicorn", extras = ["standard"], specifier = ">=0.35.0,<1.0" },
     { name = "workos", specifier = ">=5.10" },
 ]

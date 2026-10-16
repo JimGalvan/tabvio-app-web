@@ -28,7 +28,7 @@ dependencies = [
 ]
 
 [tool.uv.sources]
-tabvio-agent = { path = "../Tabvio/packages/tabvio-agent", editable = true }
+tabvio-agent = { git = "https://github.com/JimGalvan/Tabvio.git", subdirectory = "packages/tabvio-agent", rev = "a2ed8b33a33b1b6add8da0657bf8efc35ee1f837" }
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
