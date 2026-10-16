@@ -5,6 +5,7 @@ from datetime import timedelta
 from typing import Any
 from uuid import UUID
 
+from tabvio_agent import MouseUpAction
 from tabvio_agent.events import BrowserControlAppliedEvent, SessionStatusEvent
 from tabvio_agent.exceptions import (
     SensitiveInputNotPendingError as SessionSensitiveInputNotPendingError,
@@ -13,7 +14,6 @@ from tabvio_agent.exceptions import (
     SessionNotReadyForFollowUpError,
     SessionNotWaitingForInputError,
 )
-from tabvio_agent.models import MouseUpAction
 
 from tabvio_web.clock import utc_now
 from tabvio_web.credentials.exceptions import CredentialNotFoundError

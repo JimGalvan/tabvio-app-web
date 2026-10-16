@@ -4,7 +4,7 @@ from pathlib import Path
 from unittest.mock import Mock, patch
 from uuid import uuid4
 
-from tabvio_agent.settings import AgentSettings
+from tabvio_agent import AgentSettings
 
 from tabvio_web.credentials.agent_provider import CredentialServiceProvider
 from tabvio_web.runs.runtime import build_agent_runtime

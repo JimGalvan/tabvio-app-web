@@ -1,7 +1,7 @@
 import asyncio
 from uuid import UUID
 
-from tabvio_agent.models import CredentialMetadata, CredentialSecret
+from tabvio_agent import CredentialMetadata, CredentialSecret
 
 from tabvio_web.credentials.service import CredentialService
 

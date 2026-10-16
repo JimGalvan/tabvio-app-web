@@ -8,7 +8,7 @@ from types import SimpleNamespace
 from unittest.mock import patch, sentinel
 from uuid import uuid4
 
-from tabvio_agent.settings import AgentSettings
+from tabvio_agent import AgentSettings
 
 from tabvio_web import config
 

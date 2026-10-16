@@ -2,8 +2,8 @@ from dataclasses import asdict, fields
 from datetime import datetime
 from typing import Any
 
-from tabvio_agent.events import AgentEvent
-from tabvio_agent.models import (
+from tabvio_agent import (
+    AgentEvent,
     ClickAction,
     KeyAction,
     MouseDownAction,

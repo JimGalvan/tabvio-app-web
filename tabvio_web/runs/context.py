@@ -8,7 +8,7 @@ from uuid import UUID
 from tabvio_web.runs.schemas import RunEvent, RunRecord
 
 if TYPE_CHECKING:
-    from tabvio_agent.session import BrowserAgentSession
+    from tabvio_agent import BrowserAgentSession
 
 
 @dataclass
