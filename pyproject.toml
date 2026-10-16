@@ -24,6 +24,7 @@ dependencies = [
     "pydantic>=2.0,<3.0",
     "starlette>=0.40.0,<1.0",
     "tabvio-agent",
+    "sqlalchemy>=2.0,<3.0",
 ]
 
 [tool.uv.sources]
