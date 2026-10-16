@@ -86,7 +86,7 @@ class RunRepository:
             id=run.id,
             thread_id=run.thread_id,
             user_id=run.user_id,
-            credential_ids=run.model_dump(mode="json")["credential_ids"],
+            credential_ids=RunRepository._stringify_ids(run.credential_ids),
             task=run.task,
             status=run.status.value,
             max_runtime_seconds=run.max_runtime_seconds,
@@ -96,3 +96,10 @@ class RunRepository:
             created_at=run.created_at,
             updated_at=run.updated_at,
         )
+
+    @staticmethod
+    def _stringify_ids(ids: list[UUID]) -> list[str]:
+        strings = []
+        for item in ids:
+            strings.append(str(item))
+        return strings
