@@ -3,13 +3,13 @@ import os
 import unittest
 from unittest import mock
 
-from tabvio.config import read_credential_encryption_key
-from tabvio.credentials.cipher import (
+from tabvio_web.config import read_credential_encryption_key
+from tabvio_web.credentials.cipher import (
     KEY_LENGTH_BYTES,
     LocalAesGcmCredentialCipher,
     UnavailableCredentialCipher,
 )
-from tabvio.credentials.exceptions import CredentialConfigurationError
+from tabvio_web.credentials.exceptions import CredentialConfigurationError
 
 
 class LocalAesGcmCredentialCipherTests(unittest.TestCase):

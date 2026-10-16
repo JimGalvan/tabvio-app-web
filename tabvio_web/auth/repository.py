@@ -2,8 +2,8 @@ import sqlite3
 from contextlib import closing
 from pathlib import Path
 
-from tabvio.auth.models import User
-from tabvio.db import connect
+from tabvio_web.auth.models import User
+from tabvio_web.db import connect
 
 
 class UserRepository:

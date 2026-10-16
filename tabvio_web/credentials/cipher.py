@@ -6,7 +6,7 @@ from typing import Protocol
 from cryptography.exceptions import InvalidTag
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 
-from tabvio.credentials.exceptions import CredentialConfigurationError
+from tabvio_web.credentials.exceptions import CredentialConfigurationError
 
 KEY_LENGTH_BYTES = 32
 NONCE_LENGTH_BYTES = 12

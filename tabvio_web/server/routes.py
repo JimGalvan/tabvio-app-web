@@ -25,8 +25,8 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import ValidationError
 from starlette.concurrency import run_in_threadpool
 
-from tabvio.auth import routes as auth_routes
-from tabvio.auth.sessions import (
+from tabvio_web.auth import routes as auth_routes
+from tabvio_web.auth.sessions import (
     AuthKitSessionMiddleware,
     CurrentUser,
     read_session_state,
@@ -34,7 +34,7 @@ from tabvio.auth.sessions import (
     user_repository,
     verify_auth_configuration,
 )
-from tabvio.config import (
+from tabvio_web.config import (
     DATABASE_PATH,
     STATIC_DIRECTORY,
     read_credential_encryption_key,
@@ -42,20 +42,20 @@ from tabvio.config import (
     read_headless_setting,
     read_max_concurrent_runs,
 )
-from tabvio.credentials.cipher import (
+from tabvio_web.credentials.cipher import (
     LocalAesGcmCredentialCipher,
     UnavailableCredentialCipher,
 )
-from tabvio.credentials.exceptions import (
+from tabvio_web.credentials.exceptions import (
     CredentialConfigurationError,
     CredentialConflictError,
     CredentialInvalidError,
     CredentialNotFoundError,
 )
-from tabvio.credentials.repository import CredentialRepository
-from tabvio.credentials.service import CredentialService
-from tabvio.runs import constants
-from tabvio.runs.exceptions import (
+from tabvio_web.credentials.repository import CredentialRepository
+from tabvio_web.credentials.service import CredentialService
+from tabvio_web.runs import constants
+from tabvio_web.runs.exceptions import (
     RunCapacityReachedError,
     RunNotFoundError,
     RunNotReadyForFollowUpError,
@@ -63,10 +63,10 @@ from tabvio.runs.exceptions import (
     RunNotWaitingForInputError,
     SensitiveInputNotPendingError,
 )
-from tabvio.runs.models import RunContext, RunEvent, RunRecord
-from tabvio.runs.repository import RunRepository
-from tabvio.runs.service import RunManager
-from tabvio.server.constants import (
+from tabvio_web.runs.models import RunContext, RunEvent, RunRecord
+from tabvio_web.runs.repository import RunRepository
+from tabvio_web.runs.service import RunManager
+from tabvio_web.server.constants import (
     CONTROL_CLOSE_RUN_NOT_FOUND,
     CONTROL_CLOSE_RUN_NOT_WAITING,
     CONTROL_CLOSE_UNAUTHENTICATED,
@@ -78,7 +78,7 @@ from tabvio.server.constants import (
     SCREEN_CACHE_HEADERS,
     SSE_STREAM_HEADERS,
 )
-from tabvio.server.schemas import (
+from tabvio_web.server.schemas import (
     BrowserControlEvent,
     CreateCredentialRequest,
     CreateRunRequest,

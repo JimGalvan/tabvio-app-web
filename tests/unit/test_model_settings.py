@@ -7,7 +7,7 @@ from tempfile import TemporaryDirectory
 from types import SimpleNamespace
 from unittest.mock import patch, sentinel
 from uuid import uuid4
-from tabvio import config
+from tabvio_web import config
 from tabvio_agent.settings import AgentSettings
 
 
@@ -66,7 +66,7 @@ class ModelSettingsTests(unittest.TestCase):
             (project_directory / ".env").write_text("TABVIO_FAST_MODEL=anthropic:from-env\n", encoding="utf-8")
             os.environ["TABVIO_FAST_MODEL"] = "openai:existing-model"
             with patch.object(config, "PROJECT_DIRECTORY", project_directory):
-                with patch.dict(sys.modules, {"tabvio.server.routes": SimpleNamespace(app=sentinel.app)}):
+                with patch.dict(sys.modules, {"tabvio_web.server.routes": SimpleNamespace(app=sentinel.app)}):
                     namespace = runpy.run_path(str(Path(config.__file__).with_name("main.py")))
             self.assertIs(namespace["app"], sentinel.app)
             self.assertEqual(os.environ["TABVIO_FAST_MODEL"], "anthropic:from-env")

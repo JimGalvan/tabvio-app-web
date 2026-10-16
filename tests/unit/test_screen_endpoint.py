@@ -2,7 +2,7 @@ import unittest
 from collections import OrderedDict
 from unittest.mock import patch
 
-from tabvio.server import routes as app_module
+from tabvio_web.server import routes as app_module
 from tests.support import build_run, signed_in_client
 
 

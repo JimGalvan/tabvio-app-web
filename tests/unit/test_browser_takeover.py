@@ -4,8 +4,8 @@ from uuid import uuid4
 
 from fastapi import WebSocketDisconnect
 
-from tabvio.runs.models import BrowserControlEvent, RunContext, RunStatus
-from tabvio.server import routes as app_module
+from tabvio_web.runs.models import BrowserControlEvent, RunContext, RunStatus
+from tabvio_web.server import routes as app_module
 from tests.support import anonymous_client, build_run, signed_in_client
 
 
@@ -106,7 +106,7 @@ class TakeoverControllerTests(unittest.IsolatedAsyncioTestCase):
             with self.subTest(status=status):
                 session = AsyncMock()
                 context = RunContext(run=build_run(uuid4(), status=status), session=session)
-                from tabvio.runs.exceptions import RunNotWaitingForInputError
+                from tabvio_web.runs.exceptions import RunNotWaitingForInputError
                 with self.assertRaises(RunNotWaitingForInputError):
                     await app_module.run_manager.apply_control(context, BrowserControlEvent(type="click", x=1, y=2))
                 session.apply_control.assert_not_awaited()

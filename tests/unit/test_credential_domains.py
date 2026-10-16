@@ -1,6 +1,6 @@
 import unittest
 
-from tabvio.credentials.domains import (
+from tabvio_web.credentials.domains import (
     matches_allowlist,
     normalize_allowlist_entry,
     normalize_hostname,

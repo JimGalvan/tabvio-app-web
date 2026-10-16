@@ -12,10 +12,10 @@ from uuid import uuid4
 
 from fastapi.testclient import TestClient
 
-from tabvio.auth import sessions
-from tabvio.auth.constants import SESSION_COOKIE_NAME
-from tabvio.auth.models import User
-from tabvio.runs.models import RunRecord, RunStatus
+from tabvio_web.auth import sessions
+from tabvio_web.auth.constants import SESSION_COOKIE_NAME
+from tabvio_web.auth.models import User
+from tabvio_web.runs.models import RunRecord, RunStatus
 
 SEALED_SESSION = "sealed-test-session"
 
@@ -52,7 +52,7 @@ def signed_in_client(user: User | None = None):
     user = user or build_user()
     sessions.reset_session_cache()
 
-    from tabvio.server.routes import app
+    from tabvio_web.server.routes import app
 
     # Deliberately not entered as a context manager: the lifespan verifies
     # WorkOS credentials, and these tests are meant to run on a bare checkout.
@@ -71,7 +71,7 @@ def signed_in_client(user: User | None = None):
 
 @contextmanager
 def anonymous_client():
-    from tabvio.server.routes import app
+    from tabvio_web.server.routes import app
 
     sessions.reset_session_cache()
     yield TestClient(app)

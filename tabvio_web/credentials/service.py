@@ -3,21 +3,21 @@ from __future__ import annotations
 import json
 from uuid import UUID
 
-from tabvio.clock import utc_now
-from tabvio.credentials.cipher import CredentialCipher
-from tabvio.credentials.domains import (
+from tabvio_web.clock import utc_now
+from tabvio_web.credentials.cipher import CredentialCipher
+from tabvio_web.credentials.domains import (
     matches_allowlist,
     normalize_allowlist_entry,
     normalize_hostname,
     suggest_allowlist_entries,
 )
-from tabvio.credentials.exceptions import (
+from tabvio_web.credentials.exceptions import (
     CredentialConflictError,
     CredentialDomainDeniedError,
     CredentialInvalidError,
     CredentialNotFoundError,
 )
-from tabvio.credentials.models import (
+from tabvio_web.credentials.models import (
     CreateCredentialRequest,
     CredentialMetadata,
     CredentialRecord,
@@ -25,7 +25,7 @@ from tabvio.credentials.models import (
     UpdateCredentialRequest,
     VerificationMethod,
 )
-from tabvio.credentials.repository import CredentialRepository
+from tabvio_web.credentials.repository import CredentialRepository
 
 
 class CredentialService:

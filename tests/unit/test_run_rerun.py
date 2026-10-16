@@ -4,11 +4,11 @@ from pathlib import Path
 from unittest.mock import patch
 from uuid import uuid4
 
-from tabvio.credentials.exceptions import CredentialNotFoundError
-from tabvio.runs.exceptions import RunNotFoundError, RunNotRerunnableError
-from tabvio.runs.models import RunRecord, RunStatus
-from tabvio.runs.repository import RunRepository
-from tabvio.runs.service import RunManager
+from tabvio_web.credentials.exceptions import CredentialNotFoundError
+from tabvio_web.runs.exceptions import RunNotFoundError, RunNotRerunnableError
+from tabvio_web.runs.models import RunRecord, RunStatus
+from tabvio_web.runs.repository import RunRepository
+from tabvio_web.runs.service import RunManager
 from tests.session_support import StubSession
 
 
@@ -27,7 +27,7 @@ class RunRerunTests(unittest.IsolatedAsyncioTestCase):
     async def asyncSetUp(self) -> None:
         self._temporary_directory = tempfile.TemporaryDirectory()
         self._repository = RunRepository(
-            Path(self._temporary_directory.name) / "tabvio.db"
+            Path(self._temporary_directory.name) / "tabvio_web.db"
         )
         self._repository.initialize()
         self._owner_id = uuid4()
@@ -55,7 +55,7 @@ class RunRerunTests(unittest.IsolatedAsyncioTestCase):
         return run
 
     async def _rerun(self, run):
-        with patch("tabvio.runs.service.build_agent_runtime", return_value=StubSession(complete_turns=False)):
+        with patch("tabvio_web.runs.service.build_agent_runtime", return_value=StubSession(complete_turns=False)):
             return await self._manager.rerun_run(run.id, self._owner_id)
 
     async def test_a_finished_run_starts_again_with_the_same_task(self) -> None:

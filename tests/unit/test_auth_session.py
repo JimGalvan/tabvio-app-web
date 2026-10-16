@@ -5,8 +5,8 @@ from unittest.mock import patch
 from fastapi import Request
 from workos.session import AuthenticateWithSessionCookieFailureReason as FailureReason
 
-from tabvio.auth import sessions
-from tabvio.auth.sessions import SessionState, SessionVerdict
+from tabvio_web.auth import sessions
+from tabvio_web.auth.sessions import SessionState, SessionVerdict
 from tests.support import build_user
 
 

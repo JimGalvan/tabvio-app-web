@@ -3,16 +3,16 @@ import unittest
 from pathlib import Path
 from uuid import uuid4
 
-from tabvio.runs.exceptions import RunNotFoundError
-from tabvio.runs.models import RunRecord
-from tabvio.runs.repository import RunRepository
-from tabvio.runs.service import RunManager
+from tabvio_web.runs.exceptions import RunNotFoundError
+from tabvio_web.runs.models import RunRecord
+from tabvio_web.runs.repository import RunRepository
+from tabvio_web.runs.service import RunManager
 
 
 class FrameAccessTests(unittest.IsolatedAsyncioTestCase):
     async def asyncSetUp(self) -> None:
         self._temporary_directory = tempfile.TemporaryDirectory()
-        database_path = Path(self._temporary_directory.name) / "tabvio.db"
+        database_path = Path(self._temporary_directory.name) / "tabvio_web.db"
         self._repository = RunRepository(database_path)
         self._repository.initialize()
         self._manager = RunManager(self._repository)

@@ -5,17 +5,17 @@ from pathlib import Path
 from unittest.mock import patch
 from uuid import uuid4
 
-from tabvio.runs.exceptions import RunCapacityReachedError, RunNotReadyForFollowUpError
-from tabvio.runs.models import RunContext, RunStatus
-from tabvio.runs.repository import RunRepository
-from tabvio.runs.service import RunManager
+from tabvio_web.runs.exceptions import RunCapacityReachedError, RunNotReadyForFollowUpError
+from tabvio_web.runs.models import RunContext, RunStatus
+from tabvio_web.runs.repository import RunRepository
+from tabvio_web.runs.service import RunManager
 from tests.session_support import StubSession
 
 
 class FollowUpTests(unittest.IsolatedAsyncioTestCase):
     async def asyncSetUp(self) -> None:
         self._temporary_directory = tempfile.TemporaryDirectory()
-        database_path = Path(self._temporary_directory.name) / "tabvio.db"
+        database_path = Path(self._temporary_directory.name) / "tabvio_web.db"
         self._repository = RunRepository(database_path)
         self._repository.initialize()
         self._owner_id = uuid4()
@@ -25,7 +25,7 @@ class FollowUpTests(unittest.IsolatedAsyncioTestCase):
 
     async def _build_context(self, manager):
         session = StubSession()
-        with patch("tabvio.runs.service.build_agent_runtime", return_value=session):
+        with patch("tabvio_web.runs.service.build_agent_runtime", return_value=session):
             run = await manager.create_run("First task", 60, self._owner_id)
         context = manager._contexts[run.id]
         await self._wait_for_status(context, RunStatus.READY_FOR_FOLLOW_UP)

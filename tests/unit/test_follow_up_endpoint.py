@@ -1,8 +1,8 @@
 import unittest
 from unittest.mock import AsyncMock, patch
 
-from tabvio.runs.exceptions import RunNotReadyForFollowUpError
-from tabvio.server import routes as app_module
+from tabvio_web.runs.exceptions import RunNotReadyForFollowUpError
+from tabvio_web.server import routes as app_module
 from tests.support import build_run, signed_in_client
 
 

@@ -28,7 +28,7 @@ from workos.session import (
     seal_session_from_auth_response,
 )
 
-from tabvio.auth.constants import (
+from tabvio_web.auth.constants import (
     LOGIN_STATE_COOKIE_MAX_AGE_SECONDS,
     LOGIN_STATE_COOKIE_NAME,
     REFRESHED_SESSION_MEMO_SECONDS,
@@ -38,9 +38,9 @@ from tabvio.auth.constants import (
     SIGNED_IN_PATH,
     USER_CACHE_SECONDS,
 )
-from tabvio.auth.models import User
-from tabvio.auth.repository import UserRepository
-from tabvio.config import (
+from tabvio_web.auth.models import User
+from tabvio_web.auth.repository import UserRepository
+from tabvio_web.config import (
     DATABASE_PATH,
     read_workos_api_key,
     read_workos_client_id,

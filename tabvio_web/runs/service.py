@@ -15,12 +15,12 @@ from tabvio_agent.exceptions import (
 )
 from tabvio_agent.models import MouseUpAction
 
-from tabvio.clock import utc_now
-from tabvio.credentials.exceptions import CredentialNotFoundError
-from tabvio.credentials.service import CredentialService
-from tabvio.runs import constants
-from tabvio.runs.event_utils import RunEventUtils
-from tabvio.runs.exceptions import (
+from tabvio_web.clock import utc_now
+from tabvio_web.credentials.exceptions import CredentialNotFoundError
+from tabvio_web.credentials.service import CredentialService
+from tabvio_web.runs import constants
+from tabvio_web.runs.event_utils import RunEventUtils
+from tabvio_web.runs.exceptions import (
     RunCapacityReachedError,
     RunNotFoundError,
     RunNotReadyForFollowUpError,
@@ -28,15 +28,15 @@ from tabvio.runs.exceptions import (
     RunNotWaitingForInputError,
     SensitiveInputNotPendingError,
 )
-from tabvio.runs.models import (
+from tabvio_web.runs.models import (
     BrowserControlEvent,
     RunContext,
     RunEvent,
     RunRecord,
     RunStatus,
 )
-from tabvio.runs.repository import RunRepository
-from tabvio.runs.runtime import build_agent_runtime
+from tabvio_web.runs.repository import RunRepository
+from tabvio_web.runs.runtime import build_agent_runtime
 
 
 class RunManager:

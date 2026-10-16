@@ -15,7 +15,7 @@ from tabvio_agent.browser.constants import (
     VIEWPORT_HEIGHT,
     VIEWPORT_WIDTH,
 )
-from tabvio.clock import utc_now
+from tabvio_web.clock import utc_now
 
 if TYPE_CHECKING:
     from tabvio_agent.session import BrowserAgentSession

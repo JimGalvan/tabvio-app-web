@@ -3,14 +3,14 @@ import unittest
 from pathlib import Path
 from uuid import uuid4
 
-from tabvio.credentials.cipher import KEY_LENGTH_BYTES, LocalAesGcmCredentialCipher
-from tabvio.credentials.exceptions import (
+from tabvio_web.credentials.cipher import KEY_LENGTH_BYTES, LocalAesGcmCredentialCipher
+from tabvio_web.credentials.exceptions import (
     CredentialDomainDeniedError,
     CredentialNotFoundError,
 )
-from tabvio.credentials.models import CreateCredentialRequest, UpdateCredentialRequest
-from tabvio.credentials.repository import CredentialRepository
-from tabvio.credentials.service import CredentialService
+from tabvio_web.credentials.models import CreateCredentialRequest, UpdateCredentialRequest
+from tabvio_web.credentials.repository import CredentialRepository
+from tabvio_web.credentials.service import CredentialService
 
 
 class TestCipher:
@@ -30,7 +30,7 @@ class RealCipherCredentialServiceTests(unittest.TestCase):
 
     def setUp(self) -> None:
         self._temporary_directory = tempfile.TemporaryDirectory()
-        repository = CredentialRepository(Path(self._temporary_directory.name) / "tabvio.db")
+        repository = CredentialRepository(Path(self._temporary_directory.name) / "tabvio_web.db")
         repository.initialize()
         self._service = CredentialService(
             repository, LocalAesGcmCredentialCipher(b"k" * KEY_LENGTH_BYTES)
@@ -61,7 +61,7 @@ class CredentialServiceTests(unittest.TestCase):
     def setUp(self) -> None:
         self._temporary_directory = tempfile.TemporaryDirectory()
         self._repository = CredentialRepository(
-            Path(self._temporary_directory.name) / "tabvio.db"
+            Path(self._temporary_directory.name) / "tabvio_web.db"
         )
         self._repository.initialize()
         self._service = CredentialService(self._repository, TestCipher())

@@ -6,13 +6,13 @@ from typing import Literal
 from fastapi import APIRouter, HTTPException, Request, status
 from fastapi.responses import RedirectResponse
 
-from tabvio.auth.constants import (
+from tabvio_web.auth.constants import (
     LOGIN_STATE_COOKIE_NAME,
     SESSION_COOKIE_NAME,
     SIGNED_IN_PATH,
 )
-from tabvio.auth.models import CurrentUserResponse
-from tabvio.auth.sessions import (
+from tabvio_web.auth.models import CurrentUserResponse
+from tabvio_web.auth.sessions import (
     CurrentUser,
     build_authorization_url,
     build_logout_url,

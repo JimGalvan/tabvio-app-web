@@ -7,7 +7,7 @@ from uuid import UUID, uuid4
 
 from pydantic import BaseModel, Field, SecretStr, field_validator
 
-from tabvio.clock import utc_now
+from tabvio_web.clock import utc_now
 
 MAX_VERIFICATION_PREFERENCES = 5
 CredentialField = Literal["login", "password", "email", "first_name", "last_name", "phone"]

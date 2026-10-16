@@ -1,7 +1,7 @@
 import unittest
 
-from tabvio.auth.constants import SIGNED_IN_PATH
-from tabvio.auth.sessions import (
+from tabvio_web.auth.constants import SIGNED_IN_PATH
+from tabvio_web.auth.sessions import (
     create_login_state,
     is_safe_return_path,
     read_return_path,

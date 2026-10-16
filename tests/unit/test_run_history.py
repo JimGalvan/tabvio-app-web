@@ -4,8 +4,8 @@ from pathlib import Path
 from unittest.mock import patch
 from uuid import uuid4
 
-from tabvio.runs.repository import RunRepository
-from tabvio.server import routes as app_module
+from tabvio_web.runs.repository import RunRepository
+from tabvio_web.server import routes as app_module
 from tests.support import build_run, signed_in_client
 
 
@@ -13,7 +13,7 @@ class RunHistoryRepositoryTests(unittest.TestCase):
     def setUp(self) -> None:
         self.directory = tempfile.TemporaryDirectory()
         self.addCleanup(self.directory.cleanup)
-        self.repository = RunRepository(Path(self.directory.name) / "tabvio.db")
+        self.repository = RunRepository(Path(self.directory.name) / "tabvio_web.db")
         self.repository.initialize()
 
     def test_only_the_owners_runs_are_listed(self) -> None:

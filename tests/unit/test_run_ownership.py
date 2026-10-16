@@ -2,7 +2,7 @@ import unittest
 from unittest.mock import patch
 from uuid import uuid4
 
-from tabvio.server import routes as app_module
+from tabvio_web.server import routes as app_module
 from tests.support import anonymous_client, build_run, signed_in_client
 
 # Every run endpoint, as a table, so a new one cannot quietly arrive without

@@ -6,8 +6,8 @@ from contextlib import closing
 from pathlib import Path
 from uuid import UUID
 
-from tabvio.credentials.models import CredentialRecord, VerificationMethod
-from tabvio.db import connect
+from tabvio_web.credentials.models import CredentialRecord, VerificationMethod
+from tabvio_web.db import connect
 
 
 class CredentialRepository:

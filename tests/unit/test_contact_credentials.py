@@ -2,11 +2,11 @@ import tempfile
 import unittest
 from pathlib import Path
 from uuid import uuid4
-from tabvio.credentials.cipher import KEY_LENGTH_BYTES, LocalAesGcmCredentialCipher
-from tabvio.credentials.exceptions import CredentialInvalidError
-from tabvio.credentials.models import CreateCredentialRequest, UpdateCredentialRequest
-from tabvio.credentials.repository import CredentialRepository
-from tabvio.credentials.service import CredentialService
+from tabvio_web.credentials.cipher import KEY_LENGTH_BYTES, LocalAesGcmCredentialCipher
+from tabvio_web.credentials.exceptions import CredentialInvalidError
+from tabvio_web.credentials.models import CreateCredentialRequest, UpdateCredentialRequest
+from tabvio_web.credentials.repository import CredentialRepository
+from tabvio_web.credentials.service import CredentialService
 
 
 class ContactCredentialTests(unittest.TestCase):

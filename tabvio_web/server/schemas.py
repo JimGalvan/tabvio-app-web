@@ -1,12 +1,12 @@
 """HTTP request and response schemas."""
 
-from tabvio.credentials.models import (
+from tabvio_web.credentials.models import (
     CreateCredentialRequest,
     CredentialListResponse,
     CredentialMetadata,
     UpdateCredentialRequest,
 )
-from tabvio.runs.models import (
+from tabvio_web.runs.models import (
     BrowserControlEvent,
     CreateRunRequest,
     FollowUpRequest,

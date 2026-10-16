@@ -9,15 +9,15 @@ from uuid import uuid4
 
 from tabvio_agent.models import CredentialMetadata, CredentialSecret
 from tabvio_agent.credentials import CredentialProvider
-from tabvio.credentials.agent_provider import CredentialServiceProvider
-from tabvio.credentials.cipher import KEY_LENGTH_BYTES, LocalAesGcmCredentialCipher
-from tabvio.credentials.exceptions import (
+from tabvio_web.credentials.agent_provider import CredentialServiceProvider
+from tabvio_web.credentials.cipher import KEY_LENGTH_BYTES, LocalAesGcmCredentialCipher
+from tabvio_web.credentials.exceptions import (
     CredentialDomainDeniedError,
     CredentialNotFoundError,
 )
-from tabvio.credentials.models import CreateCredentialRequest
-from tabvio.credentials.repository import CredentialRepository
-from tabvio.credentials.service import CredentialService
+from tabvio_web.credentials.models import CreateCredentialRequest
+from tabvio_web.credentials.repository import CredentialRepository
+from tabvio_web.credentials.service import CredentialService
 
 
 class CredentialAgentProviderTests(unittest.IsolatedAsyncioTestCase):

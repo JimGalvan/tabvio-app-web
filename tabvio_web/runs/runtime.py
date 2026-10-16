@@ -4,10 +4,10 @@ from uuid import UUID
 
 from tabvio_agent import BrowserAgentSession
 
-from tabvio.config import read_agent_settings
-from tabvio.credentials.agent_provider import CredentialServiceProvider
-from tabvio.credentials.service import CredentialService
-from tabvio.runs import constants
+from tabvio_web.config import read_agent_settings
+from tabvio_web.credentials.agent_provider import CredentialServiceProvider
+from tabvio_web.credentials.service import CredentialService
+from tabvio_web.runs import constants
 
 logging.getLogger("dotenv.main").setLevel(logging.ERROR)
 

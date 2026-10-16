@@ -1,8 +1,8 @@
 import unittest
 from unittest.mock import AsyncMock, patch
 
-from tabvio.runs.exceptions import RunCapacityReachedError
-from tabvio.server import routes as app_module
+from tabvio_web.runs.exceptions import RunCapacityReachedError
+from tabvio_web.server import routes as app_module
 from tests.support import signed_in_client
 
 

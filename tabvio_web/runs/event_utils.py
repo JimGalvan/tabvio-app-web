@@ -12,7 +12,7 @@ from tabvio_agent.models import (
     TextAction,
 )
 
-from tabvio.runs.models import BrowserControlEvent
+from tabvio_web.runs.models import BrowserControlEvent
 
 
 class RunEventUtils:

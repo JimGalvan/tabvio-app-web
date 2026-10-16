@@ -19,10 +19,10 @@ from tabvio_agent.events import (
 )
 from tabvio_agent.models import Todo
 
-from tabvio.runs import constants
-from tabvio.runs.models import BrowserControlEvent, RunStatus
-from tabvio.runs.repository import RunRepository
-from tabvio.runs.service import RunManager
+from tabvio_web.runs import constants
+from tabvio_web.runs.models import BrowserControlEvent, RunStatus
+from tabvio_web.runs.repository import RunRepository
+from tabvio_web.runs.service import RunManager
 from tests.session_support import StubSession
 
 
@@ -30,13 +30,13 @@ class SessionEventBookkeepingTests(unittest.IsolatedAsyncioTestCase):
     async def asyncSetUp(self):
         self.directory = tempfile.TemporaryDirectory()
         self.addCleanup(self.directory.cleanup)
-        self.repository = RunRepository(Path(self.directory.name) / "tabvio.db")
+        self.repository = RunRepository(Path(self.directory.name) / "tabvio_web.db")
         self.repository.initialize()
         self.manager = RunManager(self.repository)
         self.addAsyncCleanup(self.manager.shutdown)
         self.owner = uuid4()
         self.session = StubSession(complete_turns=False)
-        with patch("tabvio.runs.service.build_agent_runtime", return_value=self.session):
+        with patch("tabvio_web.runs.service.build_agent_runtime", return_value=self.session):
             self.run = await self.manager.create_run("First task", 60, self.owner)
         self.context = self.manager._contexts[self.run.id]
 

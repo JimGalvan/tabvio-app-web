@@ -6,17 +6,17 @@ from uuid import uuid4
 
 from tabvio_agent.settings import AgentSettings
 
-from tabvio.credentials.agent_provider import CredentialServiceProvider
-from tabvio.runs.runtime import build_agent_runtime
+from tabvio_web.credentials.agent_provider import CredentialServiceProvider
+from tabvio_web.runs.runtime import build_agent_runtime
 
 
 class BuildAgentSessionTests(unittest.IsolatedAsyncioTestCase):
     def setUp(self):
-        session_patch = patch("tabvio.runs.runtime.BrowserAgentSession")
+        session_patch = patch("tabvio_web.runs.runtime.BrowserAgentSession")
         self.session = session_patch.start()
         self.addCleanup(session_patch.stop)
         self.settings = AgentSettings()
-        settings_patch = patch("tabvio.runs.runtime.read_agent_settings", return_value=self.settings)
+        settings_patch = patch("tabvio_web.runs.runtime.read_agent_settings", return_value=self.settings)
         self.read_settings = settings_patch.start()
         self.addCleanup(settings_patch.stop)
 
