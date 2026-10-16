@@ -6,7 +6,7 @@ from typing import Any, Literal
 from uuid import UUID, uuid4
 
 from pydantic import BaseModel, Field, SecretStr, model_validator
-from tabvio_agent.browser.constants import (
+from tabvio_agent import (
     CONTROL_KEYS,
     MAX_CONTROL_SCROLL_PIXELS,
     VIEWPORT_HEIGHT,

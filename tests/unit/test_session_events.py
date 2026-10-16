@@ -6,7 +6,7 @@ from pathlib import Path
 from unittest.mock import AsyncMock, patch
 from uuid import uuid4
 
-from tabvio_agent.events import (
+from tabvio_agent import (
     AgentMessageDeltaEvent,
     BrowserControlAppliedEvent,
     InputRequiredEvent,
@@ -16,8 +16,8 @@ from tabvio_agent.events import (
     SensitiveInputRequiredEvent,
     SessionStatusEvent,
     TaskTodosEvent,
+    Todo,
 )
-from tabvio_agent.models import Todo
 
 from tabvio_web.runs import constants
 from tabvio_web.runs.repository import RunRepository

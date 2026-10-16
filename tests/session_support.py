@@ -1,7 +1,7 @@
 import asyncio
 from unittest.mock import AsyncMock
 
-from tabvio_agent.events import RunCancelledEvent, RunCompletedEvent, SessionStatusEvent
+from tabvio_agent import RunCancelledEvent, RunCompletedEvent, SessionStatusEvent
 
 
 class StubSession:
