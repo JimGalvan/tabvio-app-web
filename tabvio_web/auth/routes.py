@@ -11,7 +11,7 @@ from tabvio_web.auth.constants import (
     SESSION_COOKIE_NAME,
     SIGNED_IN_PATH,
 )
-from tabvio_web.auth.models import CurrentUserResponse
+from tabvio_web.auth.schemas import CurrentUserResponse
 from tabvio_web.auth.sessions import (
     CurrentUser,
     build_authorization_url,

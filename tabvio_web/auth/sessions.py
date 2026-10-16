@@ -38,8 +38,8 @@ from tabvio_web.auth.constants import (
     SIGNED_IN_PATH,
     USER_CACHE_SECONDS,
 )
-from tabvio_web.auth.models import User
 from tabvio_web.auth.repository import UserRepository
+from tabvio_web.auth.schemas import User
 from tabvio_web.config import (
     DATABASE_PATH,
     read_workos_api_key,

@@ -17,7 +17,8 @@ from tabvio_web.credentials.exceptions import (
     CredentialInvalidError,
     CredentialNotFoundError,
 )
-from tabvio_web.credentials.models import (
+from tabvio_web.credentials.repository import CredentialRepository
+from tabvio_web.credentials.schemas import (
     CreateCredentialRequest,
     CredentialMetadata,
     CredentialRecord,
@@ -25,7 +26,6 @@ from tabvio_web.credentials.models import (
     UpdateCredentialRequest,
     VerificationMethod,
 )
-from tabvio_web.credentials.repository import CredentialRepository
 
 
 class CredentialService:

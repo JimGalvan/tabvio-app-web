@@ -55,6 +55,7 @@ from tabvio_web.credentials.exceptions import (
 from tabvio_web.credentials.repository import CredentialRepository
 from tabvio_web.credentials.service import CredentialService
 from tabvio_web.runs import constants
+from tabvio_web.runs.context import RunContext
 from tabvio_web.runs.exceptions import (
     RunCapacityReachedError,
     RunNotFoundError,
@@ -63,8 +64,8 @@ from tabvio_web.runs.exceptions import (
     RunNotWaitingForInputError,
     SensitiveInputNotPendingError,
 )
-from tabvio_web.runs.models import RunContext, RunEvent, RunRecord
 from tabvio_web.runs.repository import RunRepository
+from tabvio_web.runs.schemas import RunEvent, RunRecord
 from tabvio_web.runs.service import RunManager
 from tabvio_web.server.constants import (
     CONTROL_CLOSE_RUN_NOT_FOUND,

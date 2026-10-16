@@ -1,10 +1,8 @@
 from __future__ import annotations
 
-import asyncio
-from dataclasses import dataclass, field
 from datetime import datetime
 from enum import StrEnum
-from typing import TYPE_CHECKING, Any, Literal
+from typing import Any, Literal
 from uuid import UUID, uuid4
 
 from pydantic import BaseModel, Field, SecretStr, model_validator
@@ -16,9 +14,6 @@ from tabvio_agent.browser.constants import (
 )
 
 from tabvio_web.clock import utc_now
-
-if TYPE_CHECKING:
-    from tabvio_agent.session import BrowserAgentSession
 
 
 class RunStatus(StrEnum):
@@ -63,24 +58,6 @@ class RunEvent(BaseModel):
     event_type: str
     payload: dict[str, Any] = Field(default_factory=dict)
     created_at: datetime = Field(default_factory=utc_now)
-
-
-@dataclass
-class RunContext:
-    run: RunRecord
-    session: BrowserAgentSession
-    events: list[RunEvent] = field(default_factory=list)
-    event_condition: asyncio.Condition = field(default_factory=asyncio.Condition)
-    frame_condition: asyncio.Condition = field(default_factory=asyncio.Condition)
-    latest_frame: bytes | None = None
-    frame_sequence: int = 0
-    next_event_sequence: int = 1
-    event_task: asyncio.Task[None] | None = None
-    frame_task: asyncio.Task[None] | None = None
-    follow_up_expiry_task: asyncio.Task[None] | None = None
-    sensitive_input_request_id: UUID | None = None
-    mouse_controller: str | None = None
-    control_lock: asyncio.Lock = field(default_factory=asyncio.Lock)
 
 
 class CreateRunRequest(BaseModel):

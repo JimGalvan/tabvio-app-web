@@ -5,7 +5,7 @@ from pathlib import Path
 from uuid import UUID
 
 from tabvio_web.db import connect
-from tabvio_web.runs.models import RunEvent, RunRecord, RunStatus
+from tabvio_web.runs.schemas import RunEvent, RunRecord, RunStatus
 
 
 class RunRepository:

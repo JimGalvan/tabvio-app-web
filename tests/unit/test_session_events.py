@@ -20,8 +20,8 @@ from tabvio_agent.events import (
 from tabvio_agent.models import Todo
 
 from tabvio_web.runs import constants
-from tabvio_web.runs.models import BrowserControlEvent, RunStatus
 from tabvio_web.runs.repository import RunRepository
+from tabvio_web.runs.schemas import BrowserControlEvent, RunStatus
 from tabvio_web.runs.service import RunManager
 from tests.session_support import StubSession
 

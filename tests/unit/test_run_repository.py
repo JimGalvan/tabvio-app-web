@@ -4,8 +4,8 @@ from datetime import UTC
 from pathlib import Path
 from uuid import uuid4
 
-from tabvio_web.runs.models import RunEvent, RunRecord, RunStatus, utc_now
 from tabvio_web.runs.repository import RunRepository
+from tabvio_web.runs.schemas import RunEvent, RunRecord, RunStatus, utc_now
 
 
 class RunRepositoryTests(unittest.TestCase):

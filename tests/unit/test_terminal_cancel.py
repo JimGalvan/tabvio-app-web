@@ -3,8 +3,8 @@ import unittest
 from pathlib import Path
 from uuid import uuid4
 
-from tabvio_web.runs.models import RunRecord, RunStatus
 from tabvio_web.runs.repository import RunRepository
+from tabvio_web.runs.schemas import RunRecord, RunStatus
 from tabvio_web.runs.service import RunManager
 
 

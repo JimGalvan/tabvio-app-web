@@ -19,6 +19,7 @@ from tabvio_web.clock import utc_now
 from tabvio_web.credentials.exceptions import CredentialNotFoundError
 from tabvio_web.credentials.service import CredentialService
 from tabvio_web.runs import constants
+from tabvio_web.runs.context import RunContext
 from tabvio_web.runs.event_utils import RunEventUtils
 from tabvio_web.runs.exceptions import (
     RunCapacityReachedError,
@@ -28,15 +29,9 @@ from tabvio_web.runs.exceptions import (
     RunNotWaitingForInputError,
     SensitiveInputNotPendingError,
 )
-from tabvio_web.runs.models import (
-    BrowserControlEvent,
-    RunContext,
-    RunEvent,
-    RunRecord,
-    RunStatus,
-)
 from tabvio_web.runs.repository import RunRepository
 from tabvio_web.runs.runtime import build_agent_runtime
+from tabvio_web.runs.schemas import BrowserControlEvent, RunEvent, RunRecord, RunStatus
 
 
 class RunManager:

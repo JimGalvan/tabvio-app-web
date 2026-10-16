@@ -4,9 +4,10 @@ from pathlib import Path
 from uuid import uuid4
 
 from tabvio_web.runs import constants
+from tabvio_web.runs.context import RunContext
 from tabvio_web.runs.exceptions import RunCapacityReachedError
-from tabvio_web.runs.models import RunContext, RunRecord, RunStatus
 from tabvio_web.runs.repository import RunRepository
+from tabvio_web.runs.schemas import RunRecord, RunStatus
 from tabvio_web.runs.service import RunManager
 from tests.session_support import StubSession
 

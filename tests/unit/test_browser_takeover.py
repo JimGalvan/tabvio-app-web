@@ -4,7 +4,8 @@ from uuid import uuid4
 
 from fastapi import WebSocketDisconnect
 
-from tabvio_web.runs.models import BrowserControlEvent, RunContext, RunStatus
+from tabvio_web.runs.context import RunContext
+from tabvio_web.runs.schemas import BrowserControlEvent, RunStatus
 from tabvio_web.server import routes as app_module
 from tests.support import anonymous_client, build_run, signed_in_client
 

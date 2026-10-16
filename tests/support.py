@@ -14,8 +14,8 @@ from fastapi.testclient import TestClient
 
 from tabvio_web.auth import sessions
 from tabvio_web.auth.constants import SESSION_COOKIE_NAME
-from tabvio_web.auth.models import User
-from tabvio_web.runs.models import RunRecord, RunStatus
+from tabvio_web.auth.schemas import User
+from tabvio_web.runs.schemas import RunRecord, RunStatus
 
 SEALED_SESSION = "sealed-test-session"
 

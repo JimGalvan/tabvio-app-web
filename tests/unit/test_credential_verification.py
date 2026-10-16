@@ -6,12 +6,12 @@ from pathlib import Path
 from uuid import uuid4
 
 from tabvio_web.credentials.cipher import KEY_LENGTH_BYTES, LocalAesGcmCredentialCipher
-from tabvio_web.credentials.models import (
+from tabvio_web.credentials.repository import CredentialRepository
+from tabvio_web.credentials.schemas import (
     CreateCredentialRequest,
     UpdateCredentialRequest,
     VerificationMethod,
 )
-from tabvio_web.credentials.repository import CredentialRepository
 from tabvio_web.credentials.service import CredentialService
 
 

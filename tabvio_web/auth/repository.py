@@ -2,7 +2,7 @@ import sqlite3
 from contextlib import closing
 from pathlib import Path
 
-from tabvio_web.auth.models import User
+from tabvio_web.auth.schemas import User
 from tabvio_web.db import connect
 
 
