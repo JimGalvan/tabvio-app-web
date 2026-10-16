@@ -11,7 +11,6 @@ ENV UV_COMPILE_BYTECODE=1 \
 WORKDIR /app
 
 COPY pyproject.toml uv.lock ./
-COPY packages/tabvio-agent/pyproject.toml ./packages/tabvio-agent/pyproject.toml
 RUN uv sync --frozen --no-dev --no-install-workspace
 
 # Google Chrome rather than the Chromium Playwright bundles: Chromium names
