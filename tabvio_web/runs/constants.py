@@ -1,10 +1,7 @@
-from tabvio_agent.constants import (
-    DEFAULT_MAX_RUNTIME_SECONDS as DEFAULT_MAX_RUNTIME_SECONDS,
-)
-from tabvio_agent.constants import (
-    DEFAULT_SENSITIVE_INPUT_WINDOW_SECONDS as DEFAULT_SENSITIVE_INPUT_WINDOW_SECONDS,
-)
+from tabvio_agent import AgentSettings
 
+DEFAULT_MAX_RUNTIME_SECONDS = AgentSettings.max_runtime_seconds
+DEFAULT_SENSITIVE_INPUT_WINDOW_SECONDS = AgentSettings.sensitive_input_window_seconds
 DEFAULT_MAX_CONCURRENT_RUNS = 3
 MAX_COMPLETED_FRAME_COUNT = 6
 MAX_LIVE_MESSAGE_EVENT_COUNT = 600

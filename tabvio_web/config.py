@@ -6,8 +6,7 @@ import os
 from pathlib import Path
 from uuid import UUID
 
-from tabvio_agent.constants import DEFAULT_FAST_MODEL, DEFAULT_STRONG_MODEL
-from tabvio_agent.settings import AgentSettings
+from tabvio_agent import AgentSettings
 
 PROJECT_DIRECTORY = Path(__file__).resolve().parent.parent
 STATIC_DIRECTORY = Path(__file__).resolve().parent / "server" / "static"
@@ -34,8 +33,8 @@ def read_browser_trace_setting() -> bool:
 def read_agent_settings(thread_id: UUID) -> AgentSettings:
     trace_path = TRACE_DIRECTORY / f"{thread_id}.zip" if read_browser_trace_setting() else None
     return AgentSettings(
-        strong_model=os.getenv("TABVIO_STRONG_MODEL", "").strip() or DEFAULT_STRONG_MODEL,
-        fast_model=os.getenv("TABVIO_FAST_MODEL", "").strip() or DEFAULT_FAST_MODEL,
+        strong_model=os.getenv("TABVIO_STRONG_MODEL", "").strip() or AgentSettings.strong_model,
+        fast_model=os.getenv("TABVIO_FAST_MODEL", "").strip() or AgentSettings.fast_model,
         headless=read_headless_setting(),
         browser_channel=read_browser_channel_setting(),
         trace_path=trace_path,
