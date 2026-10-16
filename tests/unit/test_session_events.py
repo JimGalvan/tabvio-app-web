@@ -57,7 +57,6 @@ class SessionEventBookkeepingTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(events[-2].event_type, "input.required")
         self.assertEqual(events[-2].payload, {"question": "Which size?"})
         self.assertEqual(events[-1].payload, {"status": "waiting_for_input"})
-        self.session.answer = AsyncMock()
         await self.manager.submit_input(self.run.id, self.owner, "M")
         self.session.answer.assert_awaited_once_with("M")
 
@@ -83,7 +82,6 @@ class SessionEventBookkeepingTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(event.payload, {
             "request_id": str(request_id), "kind": "mfa_code", "prompt": "Enter code", "expires_at": deadline.isoformat(),
         })
-        self.session.decline_sensitive_input = AsyncMock()
         await self.manager.decline_sensitive_input(self.run.id, self.owner)
         self.session.decline_sensitive_input.assert_awaited_once_with(request_id)
         await self.emit(SensitiveInputCancelledEvent(request_id, "declined"), SessionStatusEvent("running"))

@@ -13,6 +13,11 @@ class StubSession:
         self._closed = asyncio.Event()
         self.complete_turns = complete_turns
         self.close = AsyncMock(side_effect=self._close)
+        self.answer = AsyncMock()
+        self.submit_sensitive_input = AsyncMock()
+        self.decline_sensitive_input = AsyncMock()
+        self.take_control = AsyncMock()
+        self.release_control = AsyncMock()
 
     async def start(self, task):
         self.inputs.append(task)
