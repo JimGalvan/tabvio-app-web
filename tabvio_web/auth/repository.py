@@ -1,72 +1,30 @@
-import sqlite3
-from contextlib import closing
 from pathlib import Path
 
+from sqlalchemy import select
+
+from tabvio_web.auth.models import UserModel
 from tabvio_web.auth.schemas import User
-from tabvio_web.db import connect
+from tabvio_web.database.engine import build_engine, build_session_factory
+from tabvio_web.database.models import Base
 
 
 class UserRepository:
     def __init__(self, database_path: Path):
         self._database_path = database_path
+        self._engine = build_engine(database_path)
+        self._session_factory = build_session_factory(self._engine)
 
     def initialize(self) -> None:
         self._database_path.parent.mkdir(parents=True, exist_ok=True)
-
-        with closing(self._connect()) as connection:
-            connection.executescript(
-                """
-                CREATE TABLE IF NOT EXISTS users (
-                    id TEXT PRIMARY KEY,
-                    workos_user_id TEXT NOT NULL UNIQUE,
-                    email TEXT NOT NULL,
-                    created_at TEXT NOT NULL
-                );
-
-                CREATE INDEX IF NOT EXISTS idx_users_workos_user_id
-                ON users(workos_user_id);
-                """
-            )
-            connection.commit()
+        Base.metadata.create_all(self._engine, tables=[UserModel.__table__])
 
     def get_or_create_user(self, workos_user_id: str, email: str) -> User:
-        """Return the local account for a WorkOS user, creating it on first sign-in."""
-        with closing(self._connect()) as connection:
-            row = connection.execute(
-                "SELECT * FROM users WHERE workos_user_id = ?",
-                (workos_user_id,),
-            ).fetchone()
-
-            if row is not None:
-                if row["email"] != email:
-                    connection.execute(
-                        "UPDATE users SET email = ? WHERE id = ?",
-                        (email, row["id"]),
-                    )
-                    connection.commit()
-
-                return User(
-                    id=row["id"],
-                    workos_user_id=row["workos_user_id"],
-                    email=email,
-                    created_at=row["created_at"],
-                )
-
-            user = User(workos_user_id=workos_user_id, email=email)
-            connection.execute(
-                """
-                INSERT INTO users (id, workos_user_id, email, created_at)
-                VALUES (?, ?, ?, ?)
-                """,
-                (
-                    str(user.id),
-                    user.workos_user_id,
-                    user.email,
-                    user.created_at.isoformat(),
-                ),
-            )
-            connection.commit()
-            return user
-
-    def _connect(self) -> sqlite3.Connection:
-        return connect(self._database_path)
+        statement = select(UserModel).where(UserModel.workos_user_id == workos_user_id)
+        with self._session_factory.begin() as session:
+            user = session.scalars(statement).one_or_none()
+            if not user:
+                user = UserModel(workos_user_id=workos_user_id)
+                session.add(user)
+            user.email = email
+            session.flush()
+            return User.model_validate(user, from_attributes=True)
