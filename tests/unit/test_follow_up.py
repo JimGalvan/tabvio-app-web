@@ -5,7 +5,10 @@ from pathlib import Path
 from unittest.mock import patch
 from uuid import uuid4
 
-from tabvio_web.runs.exceptions import RunCapacityReachedError, RunNotReadyForFollowUpError
+from tabvio_web.runs.exceptions import (
+    RunCapacityReachedError,
+    RunNotReadyForFollowUpError,
+)
 from tabvio_web.runs.models import RunContext, RunStatus
 from tabvio_web.runs.repository import RunRepository
 from tabvio_web.runs.service import RunManager
