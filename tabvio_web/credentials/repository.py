@@ -1,165 +1,94 @@
-from __future__ import annotations
-
-import json
-import sqlite3
-from contextlib import closing
+from datetime import datetime
 from pathlib import Path
 from uuid import UUID
 
-from tabvio_web.credentials.schemas import CredentialRecord, VerificationMethod
-from tabvio_web.db import connect
+from sqlalchemy import select, update
+from sqlalchemy.exc import IntegrityError
+
+from tabvio_web.credentials.models import CredentialModel
+from tabvio_web.credentials.schemas import CredentialRecord
+from tabvio_web.database.engine import build_engine, build_session_factory
+from tabvio_web.database.models import Base
 
 
 class CredentialRepository:
     def __init__(self, database_path: Path):
         self._database_path = database_path
+        self._engine = build_engine(database_path)
+        self._session_factory = build_session_factory(self._engine)
 
     def initialize(self) -> None:
         self._database_path.parent.mkdir(parents=True, exist_ok=True)
-        with closing(self._connect()) as connection:
-            connection.executescript(
-                """
-                CREATE TABLE IF NOT EXISTS credentials (
-                    id TEXT PRIMARY KEY,
-                    user_id TEXT NOT NULL,
-                    name TEXT NOT NULL,
-                    allowed_domains_json TEXT NOT NULL,
-                    login_hint TEXT NOT NULL,
-                    encrypted_payload BLOB,
-                    available_fields_json TEXT NOT NULL DEFAULT '["login", "password"]',
-                    is_default INTEGER NOT NULL DEFAULT 0,
-                    preferred_verification_json TEXT NOT NULL DEFAULT '[]',
-                    created_at TEXT NOT NULL,
-                    updated_at TEXT NOT NULL,
-                    revoked_at TEXT
-                );
-
-                CREATE INDEX IF NOT EXISTS idx_credentials_user
-                ON credentials(user_id, revoked_at, name);
-
-                CREATE UNIQUE INDEX IF NOT EXISTS idx_credentials_active_name
-                ON credentials(user_id, name COLLATE NOCASE)
-                WHERE revoked_at IS NULL;
-                """
-            )
-            credential_columns = {
-                row["name"] for row in connection.execute("PRAGMA table_info(credentials)")
-            }
-            if "is_default" not in credential_columns:
-                connection.execute(
-                    "ALTER TABLE credentials ADD COLUMN is_default INTEGER NOT NULL DEFAULT 0"
-                )
-            if "available_fields_json" not in credential_columns:
-                connection.execute(
-                    "ALTER TABLE credentials ADD COLUMN available_fields_json "
-                    "TEXT NOT NULL DEFAULT '[\"login\", \"password\"]'"
-                )
-            if "preferred_verification_json" not in credential_columns:
-                connection.execute(
-                    "ALTER TABLE credentials "
-                    "ADD COLUMN preferred_verification_json TEXT NOT NULL DEFAULT '[]'"
-                )
-            connection.commit()
+        Base.metadata.create_all(self._engine, tables=[CredentialModel.__table__])
 
     def save(self, credential: CredentialRecord) -> None:
-        with closing(self._connect()) as connection:
-            try:
-                connection.execute(
-                    """
-                    INSERT INTO credentials (
-                        id, user_id, name, allowed_domains_json, login_hint,
-                        encrypted_payload, available_fields_json, is_default, preferred_verification_json,
-                        created_at, updated_at, revoked_at
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                    ON CONFLICT(id) DO UPDATE SET
-                        name = excluded.name,
-                        allowed_domains_json = excluded.allowed_domains_json,
-                        login_hint = excluded.login_hint,
-                        encrypted_payload = excluded.encrypted_payload,
-                        available_fields_json = excluded.available_fields_json,
-                        is_default = excluded.is_default,
-                        preferred_verification_json = excluded.preferred_verification_json,
-                        updated_at = excluded.updated_at,
-                        revoked_at = excluded.revoked_at
-                    """,
-                    (
-                        str(credential.id),
-                        str(credential.user_id),
-                        credential.name,
-                        json.dumps(credential.allowed_domains),
-                        credential.login_hint,
-                        credential.encrypted_payload,
-                        json.dumps(credential.available_fields),
-                        int(credential.is_default),
-                        json.dumps(
-                            [method.value for method in credential.preferred_verification]
-                        ),
-                        credential.created_at.isoformat(),
-                        credential.updated_at.isoformat(),
-                        credential.revoked_at.isoformat() if credential.revoked_at else None,
-                    ),
-                )
-            except sqlite3.IntegrityError as exception:
-                raise ValueError("A credential with that name already exists") from exception
-            connection.commit()
+        try:
+            with self._session_factory.begin() as session:
+                session.merge(self._build_model(credential))
+        except IntegrityError as exception:
+            raise ValueError("A credential with that name already exists") from exception
 
     def get_owned(self, credential_id: UUID, user_id: UUID) -> CredentialRecord | None:
-        with closing(self._connect()) as connection:
-            row = connection.execute(
-                """
-                SELECT * FROM credentials
-                WHERE id = ? AND user_id = ? AND revoked_at IS NULL
-                """,
-                (str(credential_id), str(user_id)),
-            ).fetchone()
-        return self._build(row) if row is not None else None
+        statement = select(CredentialModel).where(
+            CredentialModel.id == credential_id,
+            CredentialModel.user_id == user_id,
+            CredentialModel.revoked_at.is_(None),
+        )
+        with self._session_factory() as session:
+            credential = session.scalars(statement).one_or_none()
+
+        if not credential:
+            return None
+
+        return CredentialRecord.model_validate(credential, from_attributes=True)
 
     def list_for_user(self, user_id: UUID) -> list[CredentialRecord]:
-        with closing(self._connect()) as connection:
-            rows = connection.execute(
-                """
-                SELECT * FROM credentials
-                WHERE user_id = ? AND revoked_at IS NULL
-                ORDER BY is_default DESC, name COLLATE NOCASE, created_at
-                """,
-                (str(user_id),),
-            ).fetchall()
-        return [self._build(row) for row in rows]
-
-    def revoke(self, credential_id: UUID, user_id: UUID, revoked_at: str) -> bool:
-        with closing(self._connect()) as connection:
-            cursor = connection.execute(
-                """
-                UPDATE credentials
-                SET encrypted_payload = NULL, revoked_at = ?, updated_at = ?
-                WHERE id = ? AND user_id = ? AND revoked_at IS NULL
-                """,
-                (revoked_at, revoked_at, str(credential_id), str(user_id)),
+        statement = (
+            select(CredentialModel)
+            .where(CredentialModel.user_id == user_id, CredentialModel.revoked_at.is_(None))
+            .order_by(
+                CredentialModel.is_default.desc(),
+                CredentialModel.name.collate("NOCASE"),
+                CredentialModel.created_at,
             )
-            connection.commit()
-            return cursor.rowcount == 1
-
-    @staticmethod
-    def _build(row: sqlite3.Row) -> CredentialRecord:
-        return CredentialRecord(
-            id=row["id"],
-            user_id=row["user_id"],
-            name=row["name"],
-            allowed_domains=json.loads(row["allowed_domains_json"]),
-            login_hint=row["login_hint"],
-            encrypted_payload=row["encrypted_payload"],
-            available_fields=json.loads(row["available_fields_json"]),
-            is_default=bool(row["is_default"]),
-            preferred_verification=CredentialRepository._read_verification(row),
-            created_at=row["created_at"],
-            updated_at=row["updated_at"],
-            revoked_at=row["revoked_at"],
         )
+        with self._session_factory() as session:
+            stored_credentials = session.scalars(statement).all()
+
+        credentials = []
+        for stored_credential in stored_credentials:
+            credentials.append(
+                CredentialRecord.model_validate(stored_credential, from_attributes=True)
+            )
+        return credentials
+
+    def revoke(self, credential_id: UUID, user_id: UUID, revoked_at: datetime) -> bool:
+        statement = (
+            update(CredentialModel)
+            .where(
+                CredentialModel.id == credential_id,
+                CredentialModel.user_id == user_id,
+                CredentialModel.revoked_at.is_(None),
+            )
+            .values(encrypted_payload=None, revoked_at=revoked_at, updated_at=revoked_at)
+        )
+        with self._session_factory.begin() as session:
+            result = session.execute(statement)
+        return result.rowcount == 1
 
     @staticmethod
-    def _read_verification(row: sqlite3.Row) -> list[VerificationMethod]:
-        stored = row["preferred_verification_json"]
-        return [VerificationMethod(method) for method in json.loads(stored or "[]")]
-
-    def _connect(self):
-        return connect(self._database_path)
+    def _build_model(credential: CredentialRecord) -> CredentialModel:
+        return CredentialModel(
+            id=credential.id,
+            user_id=credential.user_id,
+            name=credential.name,
+            allowed_domains=credential.allowed_domains,
+            login_hint=credential.login_hint,
+            encrypted_payload=credential.encrypted_payload,
+            available_fields=credential.available_fields,
+            is_default=credential.is_default,
+            preferred_verification=credential.preferred_verification,
+            created_at=credential.created_at,
+            updated_at=credential.updated_at,
+            revoked_at=credential.revoked_at,
+        )

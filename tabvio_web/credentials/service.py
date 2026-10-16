@@ -97,7 +97,7 @@ class CredentialService:
         return self._metadata(credential)
 
     def revoke(self, credential_id: UUID, user_id: UUID) -> None:
-        revoked_at = utc_now().isoformat()
+        revoked_at = utc_now()
         if not self._repository.revoke(credential_id, user_id, revoked_at):
             raise CredentialNotFoundError("Credential was not found")
 
