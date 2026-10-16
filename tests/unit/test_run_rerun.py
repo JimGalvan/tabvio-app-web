@@ -27,7 +27,7 @@ class RunRerunTests(unittest.IsolatedAsyncioTestCase):
     async def asyncSetUp(self) -> None:
         self._temporary_directory = tempfile.TemporaryDirectory()
         self._repository = RunRepository(
-            Path(self._temporary_directory.name) / "tabvio_web.db"
+            Path(self._temporary_directory.name) / "tabvio.db"
         )
         self._repository.initialize()
         self._owner_id = uuid4()

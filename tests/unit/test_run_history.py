@@ -13,7 +13,7 @@ class RunHistoryRepositoryTests(unittest.TestCase):
     def setUp(self) -> None:
         self.directory = tempfile.TemporaryDirectory()
         self.addCleanup(self.directory.cleanup)
-        self.repository = RunRepository(Path(self.directory.name) / "tabvio_web.db")
+        self.repository = RunRepository(Path(self.directory.name) / "tabvio.db")
         self.repository.initialize()
 
     def test_only_the_owners_runs_are_listed(self) -> None:

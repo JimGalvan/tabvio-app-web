@@ -33,7 +33,7 @@ class RealCipherCredentialServiceTests(unittest.TestCase):
 
     def setUp(self) -> None:
         self._temporary_directory = tempfile.TemporaryDirectory()
-        repository = CredentialRepository(Path(self._temporary_directory.name) / "tabvio_web.db")
+        repository = CredentialRepository(Path(self._temporary_directory.name) / "tabvio.db")
         repository.initialize()
         self._service = CredentialService(
             repository, LocalAesGcmCredentialCipher(b"k" * KEY_LENGTH_BYTES)
@@ -64,7 +64,7 @@ class CredentialServiceTests(unittest.TestCase):
     def setUp(self) -> None:
         self._temporary_directory = tempfile.TemporaryDirectory()
         self._repository = CredentialRepository(
-            Path(self._temporary_directory.name) / "tabvio_web.db"
+            Path(self._temporary_directory.name) / "tabvio.db"
         )
         self._repository.initialize()
         self._service = CredentialService(self._repository, TestCipher())

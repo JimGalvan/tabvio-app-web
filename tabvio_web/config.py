@@ -11,7 +11,7 @@ from tabvio_agent.settings import AgentSettings
 
 PROJECT_DIRECTORY = Path(__file__).resolve().parent.parent
 STATIC_DIRECTORY = Path(__file__).resolve().parent / "server" / "static"
-DATABASE_PATH = PROJECT_DIRECTORY / "data" / "tabvio_web.db"
+DATABASE_PATH = PROJECT_DIRECTORY / "data" / "tabvio.db"
 TRACE_DIRECTORY = PROJECT_DIRECTORY / "data" / "traces"
 CREDENTIAL_KEY_LENGTH_BYTES = 32
 

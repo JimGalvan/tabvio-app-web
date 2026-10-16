@@ -17,7 +17,7 @@ from tabvio_web.credentials.service import CredentialService
 class CredentialDefaultTests(unittest.TestCase):
     def setUp(self) -> None:
         self._temporary_directory = tempfile.TemporaryDirectory()
-        self._database_path = Path(self._temporary_directory.name) / "tabvio_web.db"
+        self._database_path = Path(self._temporary_directory.name) / "tabvio.db"
         self._repository = CredentialRepository(self._database_path)
         self._repository.initialize()
         self._service = CredentialService(

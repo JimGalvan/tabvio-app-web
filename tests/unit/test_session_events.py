@@ -30,7 +30,7 @@ class SessionEventBookkeepingTests(unittest.IsolatedAsyncioTestCase):
     async def asyncSetUp(self):
         self.directory = tempfile.TemporaryDirectory()
         self.addCleanup(self.directory.cleanup)
-        self.repository = RunRepository(Path(self.directory.name) / "tabvio_web.db")
+        self.repository = RunRepository(Path(self.directory.name) / "tabvio.db")
         self.repository.initialize()
         self.manager = RunManager(self.repository)
         self.addAsyncCleanup(self.manager.shutdown)

@@ -16,7 +16,7 @@ class ConcurrentRunTests(unittest.IsolatedAsyncioTestCase):
 
     async def asyncSetUp(self) -> None:
         self._temporary_directory = tempfile.TemporaryDirectory()
-        database_path = Path(self._temporary_directory.name) / "tabvio_web.db"
+        database_path = Path(self._temporary_directory.name) / "tabvio.db"
         self._repository = RunRepository(database_path)
         self._repository.initialize()
         self._manager = RunManager(
